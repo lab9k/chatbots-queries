@@ -25,5 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRouter);
+require('./routes/dl')(app);
 
 module.exports = app;
