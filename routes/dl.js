@@ -45,8 +45,9 @@ function downloadProxy(req, res) {
 
   let headers = {};
   if (provider === 'alexandria.works') {
+    console.log('alexandria');
     headers = {
-      AW_API_KEY: process.env.AW_API_KEY
+      'AW-API-KEY': process.env.AW_API_KEY
     };
     nodeFetch(url, {
       headers
