@@ -1,5 +1,6 @@
-var request = require('request');
-var nalantisApi = require('../services/nalantisApi');
+const request = require('request');
+const download = require('downloadjs');
+const nalantisApi = require('../services/nalantisApi');
 const express = require('express');
 const router = express.Router();
 
@@ -44,20 +45,15 @@ function downloadProxy(req, res) {
   let headers = {};
   if (provider === 'alexandria.works') {
     headers = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
       AW_API_KEY: process.env.AW_API_KEY
     };
   } else {
     headers = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
       Authorization: `Bearer ${nalantisApi.token.value}`
     };
   }
-  console.log(headers);
-  var stream = request.get(url, { headers }).pipe(res);
 
+  var stream = request.get(url, { headers }).pipe(res);
   stream.on('error', function(err) {
     res.send(500, err);
   });
