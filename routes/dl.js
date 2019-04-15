@@ -52,9 +52,10 @@ function downloadProxy(req, res) {
     headers = {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      Authorization: `Bearer ${nalantisApi.token}`
+      Authorization: `Bearer ${nalantisApi.token.value}`
     };
   }
+  console.log(headers);
   var stream = request.get(url, { headers }).pipe(res);
 
   stream.on('error', function(err) {
