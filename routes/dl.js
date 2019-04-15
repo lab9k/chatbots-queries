@@ -1,5 +1,6 @@
 const request = require('request');
 const download = require('downloadjs');
+const nodeFetch = require('node-fetch');
 const nalantisApi = require('../services/nalantisApi');
 const express = require('express');
 const router = express.Router();
@@ -47,18 +48,67 @@ function downloadProxy(req, res) {
     headers = {
       AW_API_KEY: process.env.AW_API_KEY
     };
+    nodeFetch(url, {
+      headers
+    })
+      .then(r => r.json())
+      .then(json => {
+        const dlUri = `${'https://digipolis-poc.alexandria.works/v0.1'}${
+          json.file.uri
+        }`;
+        var stream = request.get(dlUri, { headers }).pipe(res);
+        stream.on('error', function(err) {
+          res.send(500, err);
+        });
+      });
   } else {
     headers = {
       Authorization: `Bearer ${nalantisApi.token.value}`
     };
+    var stream = request.get(url, { headers }).pipe(res);
+    stream.on('error', function(err) {
+      res.send(500, err);
+    });
   }
-
-  var stream = request.get(url, { headers }).pipe(res);
-  stream.on('error', function(err) {
-    res.send(500, err);
-  });
 }
 
 router.get('/download-proxy', downloadProxy);
 
 module.exports = router;
+//  public async downloadFile(uuid: string) {
+//     const uri = `${this.baseUrl}/documents/${uuid}`;
+//     const resp = await nodeFetch(uri, {
+//       headers: {
+//         'AW-API-KEY': `${this.getCredentials()}`,
+//       },
+//     });
+//     const documentDetailsBody = await resp.json();
+//     const dlUri = `${this.baseUrl}${documentDetailsBody.file.uri}`;
+//     console.log(dlUri);
+//     const { headers } = await nodeFetch(dlUri, {
+//       headers: {
+//         'AW-API-KEY': `${this.getCredentials()}`,
+//       },
+//     });
+//     console.log(headers);
+//     const contentDisposition = headers.get('content-disposition');
+//     const attachment = contentDisposition.split('; ');
+//     const filename = attachment[1].split('=')[1];
+//     const trimmedFileName = filename.trim();
+//     console.log(trimmedFileName);
+//     const contentType = headers.get('content-type');
+
+//     const dlOptions: download.DownloadOptions = {
+//       filename: trimmedFileName,
+//       headers: {
+//         'Content-Type': 'application/json',
+//         Accept: 'application/json',
+//         'AW-API-KEY': `${this.getCredentials()}`,
+//       },
+//     };
+//     return {
+//       contentType: contentType.split(';')[0],
+//       buffer: await download(dlUri, './downloads', dlOptions),
+//       filename: trimmedFileName,
+//     };
+//   }
