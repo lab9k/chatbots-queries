@@ -1,5 +1,7 @@
 var request = require('request');
 var nalantisApi = require('../services/nalantisApi');
+const express = require('express');
+const router = express.Router();
 
 function setDownloadName(req, res, fileName) {
   var userAgent = (req.headers['user-agent'] || '').toLowerCase();
@@ -56,6 +58,6 @@ function downloadProxy(req, res) {
   });
 }
 
-module.exports = function(app) {
-  app.get('/download-proxy', downloadProxy);
-};
+router.get('/download-proxy', downloadProxy);
+
+module.exports = router;
