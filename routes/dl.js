@@ -34,6 +34,10 @@ function downloadProxy(req, res) {
   var url = req.query.url;
   var name = req.query.name;
   var provider = req.query.provider;
+  console.log(`Downloading:
+  name: ${name}
+  url: ${url}
+  provider: ${provider}`);
 
   setDownloadName(req, res, name);
 
