@@ -45,7 +45,8 @@ module.exports = class AirtableApi {
         question: options.question,
         Date: new Date(Date.now()).toISOString(),
         'document returned': options.document,
-        Feedback: options.feedback ? 'Good' : 'Bad'
+        Feedback: options.feedback ? 'Good' : 'Bad',
+        review: options.review
       },
       (err, record) => {
         if (err) {
