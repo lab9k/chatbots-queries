@@ -17,14 +17,15 @@ router.post('/responses', function(req, res, next) {
 });
 
 router.post('/vote', (req, res) => {
-  const { positive, item, question } = req.body;
+  const { positive, item, question, feedbackText } = req.body;
   const api = new airtableApi();
   api.addLine({
     question,
     feedback: positive,
     document: item.uuid || item.resourceURI,
     provider: item.from,
-    sessionid: 'search-session'
+    sessionid: 'search-session',
+    feedbackText
   });
   return res.status(200).json({ message: 'success' });
 });
