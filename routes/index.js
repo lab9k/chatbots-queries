@@ -25,7 +25,7 @@ router.post('/vote', (req, res) => {
     document: item.uuid || item.resourceURI,
     provider: item.from,
     sessionid: 'search-session',
-    feedbackText
+    review: feedbackText
   });
   return res.status(200).json({ message: 'success' });
 });
