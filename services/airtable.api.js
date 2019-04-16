@@ -18,28 +18,11 @@ module.exports = class AirtableApi {
    * @memberof AirtableApi
    */
   addLine(options) {
+    let base = this.alexandria_base('Sessions');
     if (options.provider === 'nalantis') {
-      return this.nalantis_base('Sessions').create(
-        {
-          sessionid: options.sessionid,
-          question: options.question,
-          Date: new Date(Date.now()).toISOString(),
-          'document returned': options.document,
-          Feedback: options.feedback ? 'Good' : 'Bad',
-          review: options.review
-        },
-        (err, record) => {
-          if (err) {
-            console.log('error creating airtable record');
-            console.error(err);
-            return;
-          }
-          console.log('airtable record successfully created');
-          console.log(`airtable record id: ${record.getId()}`);
-        }
-      );
+      base = this.nalantis_base('Sessions');
     }
-    return this.alexandria_base('Sessions').create(
+    return base.create(
       {
         sessionid: options.sessionid,
         question: options.question,
