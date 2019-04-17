@@ -17,14 +17,14 @@ router.post('/responses', function(req, res, next) {
 });
 
 router.post('/vote', (req, res) => {
-  const { positive, item, question, feedbackText } = req.body;
+  const { positive, item, question, feedbackText, sessionid } = req.body;
   const api = new airtableApi();
   const record = {
     question,
+    sessionid,
     feedback: positive,
     document: item.uuid || item.resourceURI,
     provider: item.from,
-    sessionid: 'search-session',
     review: feedbackText
   };
   console.log(`Adding record: ${JSON.stringify(record)}`);
