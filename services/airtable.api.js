@@ -22,11 +22,13 @@ module.exports = class AirtableApi {
     if (options.provider === 'nalantis') {
       base = this.nalantis_base('Sessions');
     }
+    const t = new Date();
+    t.setTime(t.getTime() + 2 * 60 * 60 * 1000);
     return base.create(
       {
         sessionid: options.sessionid,
         question: options.question,
-        Date: new Date().toString(),
+        Date: t.toString(),
         'document returned': options.document,
         Feedback: options.feedback ? 'Good' : 'Bad',
         review: options.review
