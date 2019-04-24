@@ -26,7 +26,7 @@ module.exports = class AirtableApi {
       {
         sessionid: options.sessionid,
         question: options.question,
-        Date: new Date(Date.now()).toISOString(),
+        Date: new Date().toString(),
         'document returned': options.document,
         Feedback: options.feedback ? 'Good' : 'Bad',
         review: options.review
