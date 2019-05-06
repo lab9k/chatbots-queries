@@ -13,7 +13,9 @@ router.post('/responses', function(req, res, next) {
     .then(results => {
       res.json({ nalantis: results[0], alexandria: results[1] });
     })
-    .catch(err => console.log(err));
+    .catch(() =>
+      res.json({ nalantis: { documents: [] }, alexandria: { results: [] } })
+    );
 });
 
 router.post('/vote', (req, res) => {

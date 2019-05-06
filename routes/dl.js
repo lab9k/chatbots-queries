@@ -65,7 +65,8 @@ function downloadProxy(req, res) {
       });
   } else {
     headers = {
-      Authorization: `Bearer ${nalantisApi.token.value}`
+      Authorization: `Bearer ${nalantisApi.token.value}`,
+      Accept: 'application/octet-stream'
     };
     var stream = request.get(url, { headers }).pipe(res);
     stream.on('error', function(err) {
