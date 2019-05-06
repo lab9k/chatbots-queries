@@ -19,6 +19,7 @@ app.use(function(req, res, next) {
     'Access-Control-Allow-Headers',
     'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
   );
+  res.header('Access-Control-Expose-Headers', 'Content-Disposition');
   next();
 });
 app.use(express.urlencoded({ extended: false }));

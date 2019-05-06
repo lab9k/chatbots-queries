@@ -55,6 +55,7 @@ function downloadProxy(req, res) {
       .then(r => r.json())
       .then(json => {
         console.log(json);
+        setDownloadName(req, res, json.filename);
         const dlUri = `${'https://digipolis-poc.alexandria.works/v0.1'}${
           json.file.uri
         }`;
