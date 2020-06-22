@@ -16,17 +16,18 @@ class CitynetApi {
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${this.token.value}`
+        Authorization: `Bearer ${this.token.value}`,
       },
       body: JSON.stringify({
         query: question,
         targetDocumentType: 'citynet',
         resultDetailLevel: 9,
-        rows: 10
-      })
+        rows: 10,
+        inputLanguage: 'nl',
+      }),
     })
-      .then(res => res.json())
-      .catch(err => {
+      .then((res) => res.json())
+      .catch((err) => {
         throw err;
       });
   }
@@ -39,11 +40,11 @@ class CitynetApi {
       return nodeFetch('https://api.cloud.nalantis.com/auth/v2/users/login', {
         method: 'POST',
         body: params,
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       }).then(({ headers }) => {
         const token = {
           value: headers.get('Authorization').split('Bearer ')[1],
-          date: headers.get('date')
+          date: headers.get('date'),
         };
         this.token = token;
         return token;
