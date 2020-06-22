@@ -1,17 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var nalantisApi = require('../services/nalantisApi');
-var alexandriaApi = require('../services/alexandriaApi');
 const airtableApi = require('../services/airtable.api');
 
-router.post('/responses', function(req, res, next) {
-  const searches = [
-    nalantisApi.query(req.body.question),
-    alexandriaApi.query(req.body.question)
-  ];
-  Promise.all(searches)
-    .then(results => {
-      res.json({ nalantis: results[0], alexandria: results[1] });
+router.post('/responses', function (req, res, next) {
+  nalantisApi
+    .query(req.body.question)
+    .then((results) => {
+      res.json({ nalantis: results, alexandria: [] });
     })
     .catch(() =>
       res.json({ nalantis: { documents: [] }, alexandria: { results: [] } })
@@ -27,7 +23,7 @@ router.post('/vote', (req, res) => {
     feedback: positive,
     document: item.uuid || item.resourceURI,
     provider: item.from,
-    review: feedbackText
+    review: feedbackText,
   };
   console.log(`Adding record: ${JSON.stringify(record)}`);
   api.addLine(record);
